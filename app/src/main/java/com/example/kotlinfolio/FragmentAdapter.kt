@@ -10,7 +10,7 @@ class FragmentAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
         val fragment =  when(position)
         {
             0-> ContactFragment()
-            1-> BlankFragment()
+            1-> GalleryFragment()
             2-> BlankFragment()
             else -> ContactFragment()
         }
