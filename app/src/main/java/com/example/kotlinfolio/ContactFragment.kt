@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,20 +11,25 @@ import com.example.kotlinfolio.databinding.ContactBinding
 
 
 class ContactFragment : Fragment() {
+    private lateinit var binding : ContactBinding
+
     private lateinit var rvPhoneBook: RecyclerView
     private lateinit var phoneBookListAdapter: PhoneBookListAdapter
     private lateinit var persons:Array<Person>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding : ContactBinding = DataBindingUtil.inflate(inflater, R.layout.contact, container, false)
+        binding = ContactBinding.inflate(layoutInflater)
+        val view = binding.root
+        return view
+    }
 
-        val view: View = inflater.inflate(R.layout.contact, container, false)
-        rvPhoneBook = view.findViewById(R.id.rv_phone_book)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        rvPhoneBook = binding.rvPhoneBook
         persons = tempPersons()
         setAdapter()
 
-        return binding.root
     }
 
     private fun setAdapter(){
