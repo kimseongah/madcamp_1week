@@ -11,7 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class PhoneBookListAdapter(var persons: Array<Person>, var con: Context) :
+class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
     RecyclerView.Adapter<PhoneBookListAdapter.ViewHolder>() {
     var TAG = "PhoneBookListAdapter"
 
@@ -30,10 +30,11 @@ class PhoneBookListAdapter(var persons: Array<Person>, var con: Context) :
                     var position = adapterPosition
                     var person = persons[position]
                     setTitle(person.name)
-                    setMessage(person.phoneNumber)
-                    setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                        Toast.makeText(con, "OK Button Click", Toast.LENGTH_SHORT).show()
+                    setMessage(person.phoneNumber+"\n"+person.data)
+                    setPositiveButton("Edit", DialogInterface.OnClickListener { dialog, which ->
+                        Toast.makeText(con, "Edit Button Click", Toast.LENGTH_SHORT).show()
                     })
+                    //TODO edit 기능도 있으면 좋겠지만... 넘 어려울 것 같음....
                     show()
                 }
             }
@@ -50,8 +51,6 @@ class PhoneBookListAdapter(var persons: Array<Person>, var con: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val person: Person = persons[position]
-        //[수정요함] 이미지 작업의 경우 glide를 사용해 server의 image를 불러올 것
-        //holder.iv_person_phone_book_list_item
         holder.tv_name_phone_book_list_item.text = person.name
         holder.tv_phone_number_phone_book_list_item.text = person.phoneNumber
     }

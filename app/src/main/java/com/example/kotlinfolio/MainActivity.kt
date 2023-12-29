@@ -3,7 +3,6 @@ package com.example.kotlinfolio
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
@@ -21,11 +20,4 @@ class MainActivity : AppCompatActivity() {
         tab.setupWithViewPager(pager)
     }
 
-    private fun replaceView(tab: Fragment) {
-        var selectedFragment: Fragment? = null
-        selectedFragment = tab
-        selectedFragment?.let {
-            supportFragmentManager.beginTransaction().replace(R.id.viewPager, it).commit()
-        }
-    }
 }
