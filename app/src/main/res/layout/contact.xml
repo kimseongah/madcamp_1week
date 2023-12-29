@@ -9,12 +9,6 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_phone_book"
             android:layout_width="match_parent"
