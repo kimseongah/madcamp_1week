@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val tab = findViewById<TabLayout>(R.id.tabLayout)
         tab.setupWithViewPager(pager)
         tab.getTabAt(1)?.setIcon(R.drawable.gallery_thumbnail)
+
     }
 
 }
