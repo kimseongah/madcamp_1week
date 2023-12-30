@@ -18,11 +18,11 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
         var tv_name_phone_book_list_item: TextView
         var tv_phone_number_phone_book_list_item: TextView
 
+
         init {
             iv_person_phone_book_list_item = itemView.findViewById(R.id.iv_person_phone_book_list_item)
             tv_name_phone_book_list_item = itemView.findViewById(R.id.tv_name_phone_book_list_item)
             tv_phone_number_phone_book_list_item = itemView.findViewById(R.id.tv_phone_number_phone_book_list_item)
-
             itemView.setOnClickListener {
                 returnToFragment(adapterPosition)
             }
@@ -30,8 +30,19 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
         }
     }
     fun deleteItem(position: Int) {
-        persons.removeAt(position)
-        notifyItemRemoved(position)
+        AlertDialog.Builder(con).apply {
+            var person = persons[position]
+            setTitle("연락처 삭제하기")
+            setMessage("정말로 삭제하시겠습니까?")
+            setNegativeButton("Yes") { _, _ ->
+                persons.removeAt(position)
+                notifyItemRemoved(position)
+            }
+            setPositiveButton("No") { _, _ ->
+
+            }
+            show()
+        }
     }
     fun showEditDialog(position: Int) {
         // 해당 position의 Person을 가져와서 편집 다이얼로그 띄우기
@@ -64,33 +75,8 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
             }
             .show()
     }
-    fun showAddDialog(position: Int) {
-        // 해당 position의 Person을 가져와서 편집 다이얼로그 띄우기
-        val person = persons[position]
 
-        // 다이얼로그의 커스텀 레이아웃을 inflate
-        val dialogView = LayoutInflater.from(con).inflate(R.layout.edit_dialog_layout, null)
 
-        // 다이얼로그 생성
-        AlertDialog.Builder(con)
-            .setTitle("Add Data")
-            .setView(dialogView)
-            .setPositiveButton("Save") { _, _ ->
-                // "Save" 버튼 클릭 시 EditText의 내용을 가져와서 처리
-                val editedData = dialogView.findViewById<EditText>(R.id.editTextData).text.toString()
-
-                person.data += "\n" + editedData
-
-                // RecyclerView 갱신 (변경된 데이터를 반영하기 위해)
-                notifyItemChanged(position)
-
-                returnToFragment(position)
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()  // 다이얼로그 닫기
-            }
-            .show()
-    }
 
     fun returnToFragment(position: Int) {
         // 프래그먼트로 돌아가는 코드
@@ -98,13 +84,13 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
             var person = persons[position]
             setTitle(person.name)
             setMessage(person.phoneNumber+"\n"+person.data)
-            setNeutralButton("EDIT") { _, _ ->
+            setNeutralButton("DELETE") { _, _ ->
+                // 다이얼로그가 뜰 때 어댑터의 showEditDialog 메서드를 호출
+                deleteItem(position)
+            }
+            setPositiveButton("EDIT") { _, _ ->
                 // 다이얼로그가 뜰 때 어댑터의 showEditDialog 메서드를 호출
                 showEditDialog(position)
-            }
-            setPositiveButton("ADD") { _, _ ->
-                // 다이얼로그가 뜰 때 어댑터의 showEditDialog 메서드를 호출
-                showAddDialog(position)
             }
             show()
         }
