@@ -1,12 +1,13 @@
 package com.example.kotlinfolio
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>) :
+class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con: Context) :
     RecyclerView.Adapter<RecyclerGalleryImageAdapter.ViewHolder>(){
     interface onItemClickListener {
         fun onItemClick(position: Int)

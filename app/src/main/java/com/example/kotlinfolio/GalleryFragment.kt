@@ -34,17 +34,17 @@ class GalleryFragment : Fragment() {
 
         rvGallery = binding.recyclerGalleryView
         images = mutableListOf<GalleryImage>()
-        images.add(GalleryImage(R.drawable.exampleimage1))
-        images.add(GalleryImage(R.drawable.exampleimage2))
-        images.add(GalleryImage(R.drawable.exampleimage3))
-        images.add(GalleryImage(R.drawable.exampleimage4))
+        images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1."))
+        images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2."))
+        images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3."))
+        images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4."))
 
         setAdapter()
     }
 
     private fun setAdapter(){
         rvGallery.layoutManager = GridLayoutManager(context, 2)
-        recyclerGalleryImageAdapter = context?.let { RecyclerGalleryImageAdapter(images) }!!
+        recyclerGalleryImageAdapter = context?.let { RecyclerGalleryImageAdapter(images, it) }!!
         rvGallery.adapter = recyclerGalleryImageAdapter
     }
 }
