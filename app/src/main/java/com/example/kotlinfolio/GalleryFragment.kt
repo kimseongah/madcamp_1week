@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfolio.databinding.ActivityMainBinding
 import com.example.kotlinfolio.databinding.FragmentGalleryBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import android.widget.EditText
 
 class GalleryFragment : Fragment() {
     private lateinit var binding: FragmentGalleryBinding
@@ -17,6 +19,7 @@ class GalleryFragment : Fragment() {
     private lateinit var rvGallery: RecyclerView
     private lateinit var recyclerGalleryImageAdapter: RecyclerGalleryImageAdapter
     private lateinit var images:MutableList<GalleryImage>
+    private lateinit var fabAddGal: FloatingActionButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -33,6 +36,7 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rvGallery = binding.recyclerGalleryView
+        fabAddGal = binding.fabAdd
         images = mutableListOf<GalleryImage>()
         images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1."))
         images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2."))
@@ -40,11 +44,19 @@ class GalleryFragment : Fragment() {
         images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4."))
 
         setAdapter()
+
+        fabAddGal.setOnClickListener{
+            showAddGalleryDialog()
+        }
     }
 
     private fun setAdapter(){
         rvGallery.layoutManager = GridLayoutManager(context, 2)
         recyclerGalleryImageAdapter = context?.let { RecyclerGalleryImageAdapter(images, it) }!!
         rvGallery.adapter = recyclerGalleryImageAdapter
+    }
+
+    private fun showAddGalleryDialog() {
+
     }
 }
