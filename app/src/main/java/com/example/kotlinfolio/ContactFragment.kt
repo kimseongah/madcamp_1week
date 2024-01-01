@@ -1,5 +1,6 @@
 package com.example.kotlinfolio
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfolio.databinding.ContactBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
-
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import java.lang.reflect.Type
+import java.time.ZoneId
+import java.util.Locale
 
 
 class ContactFragment : Fragment() {
@@ -60,7 +67,11 @@ class ContactFragment : Fragment() {
             .bufferedReader()
             .use { it.readText() }
 
-        val gson = Gson()
+        val gson = GsonBuilder()
+            .registerTypeAdapter(CalendarDay::class.java,
+                ContactFragment.CalendarDayDeserializer()
+            )
+            .create()
         val listPersonType = object : TypeToken<List<Person>>() {}.type
         return gson.fromJson(jsonString, listPersonType)
     }
@@ -78,9 +89,10 @@ class ContactFragment : Fragment() {
                 val name = editTextName.text.toString()
                 val phoneNumber = editTextPhoneNumber.text.toString()
                 val data = editTextData.text.toString()
+                val date = CalendarDay.today()
 
                 // Add the new contact to the list
-                val newPerson = Person(id, name, phoneNumber, data)
+                val newPerson = Person(id, name, phoneNumber, data, date)
                 persons.add(newPerson)
 
                 // Notify the adapter that the data has changed
@@ -90,6 +102,37 @@ class ContactFragment : Fragment() {
                 dialog.dismiss()
             }
             .show()
+    }
+    class CalendarDayDeserializer : JsonDeserializer<CalendarDay> {
+        override fun deserialize(
+            json: JsonElement?,
+            typeOfT: Type?,
+            context: JsonDeserializationContext?
+        ): CalendarDay {
+            val dateString = json?.asString ?: ""
+            return convertStringToCalendarDay(dateString, "yyyy-MM-dd") ?: CalendarDay.today()
+        }
+
+        private fun convertStringToCalendarDay(
+            dateString: String,
+            dateFormat: String
+        ): CalendarDay? {
+            return try {
+                val sdf = SimpleDateFormat(dateFormat, Locale.getDefault())
+                val date = sdf.parse(dateString)
+                if (date != null) {
+                    val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                    CalendarDay.from(localDate.year, localDate.monthValue, localDate.dayOfMonth)
+                } else {
+                    null
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+
+
     }
 
 }
