@@ -45,7 +45,11 @@ class CalendarFragment : Fragment() {
     private fun setupCalendar() {
         val calendarView = binding.calendarView
 
-        // ... (Your existing setup code)
+        // Create a decorator to highlight today's date
+        val todayDecorator = TodayDecorator(binding.root.context)
+
+        // Add the decorator to the calendar view
+        calendarView.addDecorator(todayDecorator)
 
         // Set a date click listener to handle clicks on specific dates
         calendarView.setOnDateChangedListener { _, date, _ ->
