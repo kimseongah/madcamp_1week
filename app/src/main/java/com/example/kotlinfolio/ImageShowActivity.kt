@@ -9,7 +9,7 @@ class ImageShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
+        binding.shownImageView.setImageResource(intent.getIntExtra("ImgRes",0))
     }
 }
 

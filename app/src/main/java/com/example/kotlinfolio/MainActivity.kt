@@ -1,6 +1,7 @@
 
 package com.example.kotlinfolio
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -20,6 +21,10 @@ class MainActivity : AppCompatActivity() {
         tab.setupWithViewPager(pager)
         tab.getTabAt(1)?.setIcon(R.drawable.gallery_thumbnail)
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 }

@@ -36,7 +36,7 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rvGallery = binding.recyclerGalleryView
-        fabAddGal = binding.fabAdd
+        fabAddGal = binding.fabAddGal
         images = mutableListOf<GalleryImage>()
         images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1."))
         images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2."))
