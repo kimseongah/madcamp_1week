@@ -6,23 +6,24 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import android.provider.MediaStore
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfolio.databinding.FragmentGalleryBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class GalleryFragment : Fragment() {
     private lateinit var binding: FragmentGalleryBinding
 
-    private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var rvGallery: RecyclerView
     private lateinit var recyclerGalleryImageAdapter: RecyclerGalleryImageAdapter
     private lateinit var images:MutableList<GalleryImage>
@@ -68,7 +69,7 @@ class GalleryFragment : Fragment() {
             if (data != null) {
                 selectedImageUri = data.data
                 if (selectedImageUri != null) {
-                    val newGalleryImage = GalleryImage(0, "Title " + (images.size + 1).toString(), "Description " + (images.size + 1).toString(), selectedImageUri)
+                    val newGalleryImage = GalleryImage(0, "Title " + (images.size + 1).toString(), "Description " + (images.size + 1).toString(), selectedImageUri, CalendarDay.today())
                     images.add(newGalleryImage)
                     recyclerGalleryImageAdapter.notifyDataSetChanged()
                 }
@@ -85,11 +86,11 @@ class GalleryFragment : Fragment() {
 
         images = mutableListOf<GalleryImage>()
 
-        images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null))
-        images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null))
-        images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null))
-        images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null))
-        sharedViewModel.images = images
+        images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null, CalendarDay.today()))
+        images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null, CalendarDay.today()))
+        images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null, CalendarDay.today()))
+        images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.today()))
+        setFragmentResult("requestKey", bundleOf("images" to images))
         setAdapter()
 
 
