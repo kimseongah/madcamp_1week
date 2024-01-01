@@ -57,6 +57,6 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.github.prolificinteractive:material-calendarview:2.0.0")
     implementation("joda-time:joda-time:2.10.14")
-
+    implementation("com.github.bumptech.glide:glide:4.12.0")
 
 }
