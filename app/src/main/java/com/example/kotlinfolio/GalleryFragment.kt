@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfolio.databinding.FragmentGalleryBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class GalleryFragment : Fragment() {
