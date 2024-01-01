@@ -81,6 +81,13 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
     fun expandGallery(position: Int) {
         val intent = Intent(con, ImageShowActivity::class.java)
         intent.putExtra("ImgRes", items[position].img)
+        if(items[position].uri == null) {
+            intent.putExtra("IsNull", 1)
+        }
+        else{
+            intent.putExtra("IsNull", 0)
+            intent.putExtra("ImgUri", items[position].uri.toString())
+        }
         con.startActivity(intent)
 
     }
@@ -107,8 +114,12 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
         RecyclerView.ViewHolder(itemView) {
             fun bindItems(items: GalleryImage){
                 val imageArea = itemView.findViewById<ImageView>(R.id.imageArea)
-
-                imageArea.setImageResource(items.img)
+                if(items.uri == null){
+                    imageArea.setImageResource(items.img)
+                }
+                else{
+                    imageArea.setImageURI(items.uri)
+                }
                 itemView.setOnClickListener {
                     itemClicked(adapterPosition)
                 }
