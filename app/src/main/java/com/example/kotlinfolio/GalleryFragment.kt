@@ -2,7 +2,6 @@ package com.example.kotlinfolio
 
 import android.Manifest
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -13,14 +12,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import android.provider.MediaStore
-import android.util.DisplayMetrics
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfolio.databinding.FragmentGalleryBinding

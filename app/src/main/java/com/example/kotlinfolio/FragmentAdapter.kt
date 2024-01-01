@@ -9,7 +9,7 @@ class FragmentAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         val fragment =  when(position)
         {
-            0-> CalendarFragment()
+            0-> ContactFragment()
             1-> GalleryFragment()
             2-> CalendarFragment()
             else -> ContactFragment()
