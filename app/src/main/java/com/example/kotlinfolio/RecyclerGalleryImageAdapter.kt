@@ -101,8 +101,11 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
             setNegativeButton("DELETE") { _, _ ->
                 deleteGallery(position)
             }
-            setNeutralButton("EDIT") { _, _ ->
+            setPositiveButton("EDIT") { _, _ ->
                 editGallery(position)
+            }
+            setNeutralButton("CLOSE"){ dialog, _ ->
+                dialog.dismiss()
             }
             show()
         }
