@@ -9,9 +9,9 @@ class FragmentAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         val fragment =  when(position)
         {
-            0-> ContactFragment()
+            0-> CalendarFragment()
             1-> GalleryFragment()
-            2-> BlankFragment()
+            2-> CalendarFragment()
             else -> ContactFragment()
         }
         return fragment
@@ -26,7 +26,7 @@ class FragmentAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
         {
             0->"Contacts"
             1->"Gallery"
-            2->"None"
+            2->"Calendar"
             else -> "Contact"
         }
         return title     }

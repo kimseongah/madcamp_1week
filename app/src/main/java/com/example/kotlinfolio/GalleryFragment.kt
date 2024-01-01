@@ -1,19 +1,19 @@
 package com.example.kotlinfolio
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlinfolio.databinding.ActivityMainBinding
 import com.example.kotlinfolio.databinding.FragmentGalleryBinding
 
 class GalleryFragment : Fragment() {
     private lateinit var binding: FragmentGalleryBinding
 
+    private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var rvGallery: RecyclerView
     private lateinit var recyclerGalleryImageAdapter: RecyclerGalleryImageAdapter
     private lateinit var images:MutableList<GalleryImage>
@@ -38,7 +38,7 @@ class GalleryFragment : Fragment() {
         images.add(GalleryImage(R.drawable.exampleimage2))
         images.add(GalleryImage(R.drawable.exampleimage3))
         images.add(GalleryImage(R.drawable.exampleimage4))
-
+        sharedViewModel.images = images
         setAdapter()
     }
 
@@ -46,5 +46,6 @@ class GalleryFragment : Fragment() {
         rvGallery.layoutManager = GridLayoutManager(context, 2)
         recyclerGalleryImageAdapter = context?.let { RecyclerGalleryImageAdapter(images) }!!
         rvGallery.adapter = recyclerGalleryImageAdapter
+
     }
 }
