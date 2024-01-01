@@ -18,6 +18,7 @@ import com.example.kotlinfolio.databinding.FragmentGalleryBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class GalleryFragment : Fragment() {
     private lateinit var binding: FragmentGalleryBinding
@@ -68,7 +69,7 @@ class GalleryFragment : Fragment() {
             if (data != null) {
                 selectedImageUri = data.data
                 if (selectedImageUri != null) {
-                    val newGalleryImage = GalleryImage(0, "Title " + (images.size + 1).toString(), "Description " + (images.size + 1).toString(), selectedImageUri)
+                    val newGalleryImage = GalleryImage(0, "Title " + (images.size + 1).toString(), "Description " + (images.size + 1).toString(), selectedImageUri, CalendarDay.today())
                     images.add(newGalleryImage)
                     recyclerGalleryImageAdapter.notifyDataSetChanged()
                 }
@@ -85,10 +86,10 @@ class GalleryFragment : Fragment() {
 
         images = mutableListOf<GalleryImage>()
 
-        images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null))
-        images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null))
-        images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null))
-        images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null))
+        images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null, CalendarDay.from(2023, 12, 30)))
+        images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null, CalendarDay.from(2023, 12, 22)))
+        images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null, CalendarDay.from(2023, 12, 12)))
+        images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.from(2023, 12, 25)))
         sharedViewModel.images = images
         setAdapter()
 
