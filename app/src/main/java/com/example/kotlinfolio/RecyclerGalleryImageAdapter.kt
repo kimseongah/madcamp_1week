@@ -96,7 +96,8 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
         AlertDialog.Builder(con).apply {
             var imageData = items[position]
             setTitle(imageData.title)
-            setMessage(imageData.description)
+            var dateString = imageData.date.year.toString() + "-" + imageData.date.month.toString() + "-" + imageData.date.day.toString()
+            setMessage(imageData.description + "\n" + dateString)
             setNegativeButton("DELETE") { _, _ ->
                 deleteGallery(position)
             }
