@@ -1,7 +1,13 @@
 package com.example.kotlinfolio
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.text.Layout
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.AlignmentSpan
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +15,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.prolificinteractive.materialcalendarview.CalendarDay
+
+
 
 class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
     RecyclerView.Adapter<PhoneBookListAdapter.ViewHolder>() {
@@ -28,12 +37,34 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
 
         }
     }
+    @SuppressLint("ResourceAsColor")
     fun returnToFragment(position: Int) {
         // 프래그먼트로 돌아가는 코드
         AlertDialog.Builder(con).apply {
             var person = persons[position]
             setTitle(person.name)
-            setMessage(person.phoneNumber+"\n"+person.data)
+
+            val message = SpannableString("${person.phoneNumber}\n\n${person.data}\n${person.date.year}.${person.date.month}.${person.date.day}")
+
+            // Apply a smaller size and gray color to the date part
+            val startIndex = ("${person.phoneNumber}\n" +
+                    "\n" +
+                    "${person.data}\n").length
+            message.setSpan(
+                ForegroundColorSpan(R.color.Gray),
+                startIndex,
+                message.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            message.setSpan(
+                AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE),
+                startIndex,
+                message.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            setMessage(message)
+
             setNeutralButton("DELETE") { _, _ ->
                 // 다이얼로그가 뜰 때 어댑터의 showEditDialog 메서드를 호출
                 deleteItem(position)
@@ -80,6 +111,7 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
 
                 // 데이터 수정
                 person.data = editedData
+                person.date = CalendarDay.today()
 
                 // RecyclerView 갱신 (변경된 데이터를 반영하기 위해)
                 notifyItemChanged(position)
