@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         tab.setupWithViewPager(pager)
         tab.getTabAt(0)?.setIcon(R.drawable.contacts_thumbnail)
         tab.getTabAt(1)?.setIcon(R.drawable.gallery_thumbnail)
+        tab.getTabAt(2)?.setIcon(R.drawable.calendar_thumbnail)
 
     }
 

@@ -7,4 +7,5 @@ data class GalleryImage(
     var title: String,
     var description: String,
     var uri: Uri?
+
 ){}

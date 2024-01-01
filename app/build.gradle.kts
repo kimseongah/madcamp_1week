@@ -54,4 +54,9 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.fragment:fragment-ktx:1.4.1")
     implementation("com.google.code.gson:gson:2.8.7")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("com.github.prolificinteractive:material-calendarview:2.0.0")
+    implementation("joda-time:joda-time:2.10.14")
+
+
 }

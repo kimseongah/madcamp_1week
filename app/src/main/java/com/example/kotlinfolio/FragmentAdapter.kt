@@ -11,7 +11,7 @@ class FragmentAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
         {
             0-> ContactFragment()
             1-> GalleryFragment()
-            2-> BlankFragment()
+            2-> CalendarFragment()
             else -> ContactFragment()
         }
         return fragment
@@ -26,7 +26,7 @@ class FragmentAdapter (fm : FragmentManager): FragmentPagerAdapter(fm) {
         {
             0->"Contacts"
             1->"Gallery"
-            2->"None"
+            2->"Calendar"
             else -> "Contact"
         }
         return title     }
