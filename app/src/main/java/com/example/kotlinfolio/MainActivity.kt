@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         pager.adapter = pagerAdapter
         val tab = findViewById<TabLayout>(R.id.tabLayout)
         tab.setupWithViewPager(pager)
+        tab.getTabAt(0)?.setIcon(R.drawable.contacts_thumbnail)
         tab.getTabAt(1)?.setIcon(R.drawable.gallery_thumbnail)
 
     }
