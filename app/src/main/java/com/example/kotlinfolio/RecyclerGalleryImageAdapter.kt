@@ -100,11 +100,8 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
             setNegativeButton("DELETE") { _, _ ->
                 deleteGallery(position)
             }
-            setPositiveButton("EDIT") { _, _ ->
+            setNeutralButton("EDIT") { _, _ ->
                 editGallery(position)
-            }
-            setNeutralButton("EXPAND") { _, _ ->
-                expandGallery(position)
             }
             show()
         }
@@ -121,7 +118,11 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
                     imageArea.setImageURI(items.uri)
                 }
                 itemView.setOnClickListener {
+                    expandGallery(adapterPosition)
+                }
+                itemView.setOnLongClickListener {
                     itemClicked(adapterPosition)
+                    return@setOnLongClickListener true
                 }
             }
 
