@@ -18,7 +18,6 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
         var tv_name_phone_book_list_item: TextView
         var tv_phone_number_phone_book_list_item: TextView
 
-
         init {
             iv_person_phone_book_list_item = itemView.findViewById(R.id.iv_person_phone_book_list_item)
             tv_name_phone_book_list_item = itemView.findViewById(R.id.tv_name_phone_book_list_item)
@@ -27,6 +26,23 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
                 returnToFragment(adapterPosition)
             }
 
+        }
+    }
+    fun returnToFragment(position: Int) {
+        // 프래그먼트로 돌아가는 코드
+        AlertDialog.Builder(con).apply {
+            var person = persons[position]
+            setTitle(person.name)
+            setMessage(person.phoneNumber+"\n"+person.data)
+            setNeutralButton("DELETE") { _, _ ->
+                // 다이얼로그가 뜰 때 어댑터의 showEditDialog 메서드를 호출
+                deleteItem(position)
+            }
+            setPositiveButton("EDIT") { _, _ ->
+                // 다이얼로그가 뜰 때 어댑터의 showEditDialog 메서드를 호출
+                showEditDialog(position)
+            }
+            show()
         }
     }
     fun deleteItem(position: Int) {
@@ -75,27 +91,6 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
             }
             .show()
     }
-
-
-
-    fun returnToFragment(position: Int) {
-        // 프래그먼트로 돌아가는 코드
-        AlertDialog.Builder(con).apply {
-            var person = persons[position]
-            setTitle(person.name)
-            setMessage(person.phoneNumber+"\n"+person.data)
-            setNeutralButton("DELETE") { _, _ ->
-                // 다이얼로그가 뜰 때 어댑터의 showEditDialog 메서드를 호출
-                deleteItem(position)
-            }
-            setPositiveButton("EDIT") { _, _ ->
-                // 다이얼로그가 뜰 때 어댑터의 showEditDialog 메서드를 호출
-                showEditDialog(position)
-            }
-            show()
-        }
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val con = parent.context

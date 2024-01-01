@@ -7,6 +7,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import androidx.fragment.app.Fragment
@@ -26,6 +31,7 @@ import androidx.core.content.ContextCompat
 class GalleryFragment : Fragment() {
     private lateinit var binding: FragmentGalleryBinding
 
+    private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var rvGallery: RecyclerView
     private lateinit var recyclerGalleryImageAdapter: RecyclerGalleryImageAdapter
     private lateinit var images:MutableList<GalleryImage>
@@ -87,11 +93,12 @@ class GalleryFragment : Fragment() {
 
 
         images = mutableListOf<GalleryImage>()
+
         images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null))
         images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null))
         images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null))
         images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null))
-
+        sharedViewModel.images = images
         setAdapter()
 
 
@@ -103,6 +110,7 @@ class GalleryFragment : Fragment() {
         rvGallery.layoutManager = GridLayoutManager(context, 2)
         recyclerGalleryImageAdapter = context?.let { RecyclerGalleryImageAdapter(images, it) }!!
         rvGallery.adapter = recyclerGalleryImageAdapter
+
     }
 
     private fun getImageFromGallery() {
