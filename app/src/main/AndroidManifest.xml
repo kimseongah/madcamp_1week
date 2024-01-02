@@ -29,6 +29,11 @@
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.KotlinFolio" />
+        <activity
+            android:name=".ImageShowActivity"
+            android:exported="false"
+            android:label="@string/title_activity_image_show"
+            android:theme="@style/Theme.KotlinFolio" />
 
     </application>
 
