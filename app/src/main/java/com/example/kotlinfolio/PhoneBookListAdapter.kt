@@ -23,9 +23,12 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 
 
 
-class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
+class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, private val listener: ContactFragment) :
     RecyclerView.Adapter<PhoneBookListAdapter.ViewHolder>() {
     var TAG = "PhoneBookListAdapter"
+    interface AdapterListener {
+        fun onImageEditButtonClicked(position: Int)
+    }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var iv_person_phone_book_list_item: ImageView
         var tv_name_phone_book_list_item: TextView
@@ -117,7 +120,8 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
 
         // 이미지 편집 버튼 클릭 시 갤러리에서 이미지 선택
         imageEditButton.setOnClickListener {
-
+            // AdapterListener를 통해 Fragment로 이벤트 전달
+            listener.onImageEditButtonClicked(position)
         }
 
         // 다이얼로그 생성

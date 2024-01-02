@@ -1,8 +1,10 @@
 package com.example.kotlinfolio
 
 import Person
+import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +51,18 @@ class ContactFragment : Fragment() {
         sharedViewModel.persons.value = persons/* 설정할 images 리스트 */
     }
 
+    fun onImageEditButtonClicked(position: Int) {
+        // 갤러리 열기 등의 처리 수행
+        openGallery()
+        // 선택한 이미지 경로를 저장할 수도 있음
+        // 저장 후 Adapter에게 이벤트 전달하여 이미지 경로를 업데이트하도록 할 수 있음
+    }
+    private fun openGallery() {
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galleryIntent.type = "image/*"
+        startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -67,7 +81,7 @@ class ContactFragment : Fragment() {
 
     private fun setAdapter(){
         rvPhoneBook.layoutManager = LinearLayoutManager(context)
-        phoneBookListAdapter = context?.let { PhoneBookListAdapter(persons, it) }!!
+        phoneBookListAdapter = PhoneBookListAdapter(persons, requireContext(), this)
         rvPhoneBook.adapter = phoneBookListAdapter
     }
 
