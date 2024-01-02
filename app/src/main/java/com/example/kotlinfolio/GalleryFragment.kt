@@ -98,10 +98,6 @@ class GalleryFragment : Fragment() {
         images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.from(2023, 12, 31)))
         setData()
         setAdapter()
-
-
-
-
     }
 
     private fun setAdapter(){

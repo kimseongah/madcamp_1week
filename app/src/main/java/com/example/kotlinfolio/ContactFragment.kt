@@ -33,7 +33,7 @@ class ContactFragment : Fragment() {
     private lateinit var fabAdd: FloatingActionButton
     private lateinit var persons:ArrayList<Person>
     private val sharedViewModel: SharedViewModel by activityViewModels()
-
+    private val PICK_IMAGE_REQUEST = 1
 
 
     override fun onCreateView(
