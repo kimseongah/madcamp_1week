@@ -34,9 +34,6 @@ class CalendarFragment : Fragment() {
             images = result.getParcelableArrayList("images")!!
 
             // 받은 데이터 사용
-            if (images != null) {
-                images[0].uri
-            }
         }
         setupCalendar()
 
@@ -82,16 +79,9 @@ class CalendarFragment : Fragment() {
 
         // Display the first image in the list using Glide and the binding
         if (images.isNotEmpty()) {
-            if (images[0].uri == null){
-                Glide.with(context)
-                    .load(images[0].img)
-                    .into(binding.imageView)
-            }else{
-                Glide.with(context)
-                    .load(images[0].uri)
-                    .into(binding.imageView)
-            }
-
+            Glide.with(context)
+                .load(images[0].img)
+                .into(binding.imageView)
         }
 
         val dialog = AlertDialog.Builder(context)

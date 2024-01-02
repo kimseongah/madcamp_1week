@@ -45,6 +45,7 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
             setNegativeButton("Yes") { _, _ ->
                 items.removeAt(position)
                 notifyItemRemoved(position)
+                ModelPreferencesManager.put(GalleryImageList(items), "SavedList")
             }
             setPositiveButton("No") { _, _ ->
 
@@ -96,6 +97,7 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
                 imgData.date = CalendarDay.from(final_year, final_month, final_day)
 
                 notifyItemChanged(position)
+                ModelPreferencesManager.put(GalleryImageList(items), "SavedList")
 
                 itemClicked(position)
             }
@@ -108,13 +110,6 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
     fun expandGallery(position: Int) {
         val intent = Intent(con, ImageShowActivity::class.java)
         intent.putExtra("ImgRes", items[position].img)
-        if(items[position].uri == null) {
-            intent.putExtra("IsNull", 1)
-        }
-        else{
-            intent.putExtra("IsNull", 0)
-            intent.putExtra("ImgUri", items[position].uri.toString())
-        }
         con.startActivity(intent)
 
     }
@@ -142,12 +137,7 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
         RecyclerView.ViewHolder(itemView) {
             fun bindItems(items: GalleryImage){
                 val imageArea = itemView.findViewById<ImageView>(R.id.imageArea)
-                if(items.uri == null){
-                    imageArea.setImageResource(items.img)
-                }
-                else{
-                    imageArea.setImageURI(items.uri)
-                }
+                imageArea.setImageBitmap(items.img)
                 itemView.setOnClickListener {
                     expandGallery(adapterPosition)
                 }

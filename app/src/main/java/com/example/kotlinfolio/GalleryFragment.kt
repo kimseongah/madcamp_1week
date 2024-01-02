@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -69,9 +71,11 @@ class GalleryFragment : Fragment() {
             if (data != null) {
                 selectedImageUri = data.data
                 if (selectedImageUri != null) {
-                    val newGalleryImage = GalleryImage(0, "Title " + (images.size + 1).toString(), "Description " + (images.size + 1).toString(), selectedImageUri, CalendarDay.today())
+                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, selectedImageUri)
+                    val newGalleryImage = GalleryImage(bitmap, "Title " + (images.size + 1).toString(), "Description " + (images.size + 1).toString(), CalendarDay.today())
                     images.add(newGalleryImage)
                     recyclerGalleryImageAdapter.notifyDataSetChanged()
+                    ModelPreferencesManager.put(GalleryImageList(images), "SavedList")
                 }
             }
         }
@@ -85,11 +89,29 @@ class GalleryFragment : Fragment() {
 
 
         images = mutableListOf<GalleryImage>()
-
+        /*
         images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null, CalendarDay.from(2023, 12, 25)))
         images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null, CalendarDay.from(2023, 12, 22)))
         images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null, CalendarDay.from(2023, 12, 31)))
         images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.from(2023, 12, 28)))
+        */
+        var checkedGalleryFrag : Boolean? = ModelPreferencesManager.get<Boolean>("checkedGalleryFrag")
+        var li : GalleryImageList = GalleryImageList(mutableListOf<GalleryImage>())
+        if (checkedGalleryFrag == null){
+            ModelPreferencesManager.put(true, "checkedGalleryFrag")
+            BitmapFactory.decodeResource(resources, R.drawable.exampleimage1)
+            li.listImg.add(GalleryImage(BitmapFactory.decodeResource(resources, R.drawable.exampleimage1), "Example Image 1", "This is example 1.", CalendarDay.from(2023, 12, 25)))
+            li.listImg.add(GalleryImage(BitmapFactory.decodeResource(resources, R.drawable.exampleimage2), "Example Image 2", "This is example 2.", CalendarDay.from(2023, 12, 22)))
+            li.listImg.add(GalleryImage(BitmapFactory.decodeResource(resources, R.drawable.exampleimage3), "Example Image 3", "This is example 3.", CalendarDay.from(2023, 12, 31)))
+            li.listImg.add(GalleryImage(BitmapFactory.decodeResource(resources, R.drawable.exampleimage4), "Example Image 4", "This is example 4.", CalendarDay.from(2023, 12, 28)))
+        }
+        else{
+            var tmpli : GalleryImageList? = ModelPreferencesManager.get< GalleryImageList >("SavedList")
+            tmpli?.let { li = it }
+        }
+        ModelPreferencesManager.put(li, "SavedList")
+        images = li.listImg
+
         setFragmentResult("requestKey", bundleOf("images" to images))
         setAdapter()
 
