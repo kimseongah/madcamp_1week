@@ -1,12 +1,15 @@
 package com.example.kotlinfolio
 
+import Person
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfolio.databinding.ContactBinding
@@ -47,6 +50,7 @@ class ContactFragment : Fragment() {
         rvPhoneBook = binding.rvPhoneBook
         fabAdd = binding.fabAdd
         persons = getPersons()
+        setFragmentResult("requestKey", bundleOf("persons" to persons))
         setAdapter()
 
         // FloatingActionButton 클릭 이벤트 핸들러 추가
