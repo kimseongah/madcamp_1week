@@ -1,16 +1,19 @@
 package com.example.kotlinfolio
 
-import android.app.AlertDialog
+import Person
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
+import android.text.style.ForegroundColorSpan
+import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
-import com.bumptech.glide.Glide
-import com.example.kotlinfolio.databinding.DialogImageGalleryBinding
+import androidx.fragment.app.activityViewModels
 import com.example.kotlinfolio.databinding.FragmentCalendarBinding
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
@@ -19,6 +22,9 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade
 class CalendarFragment : Fragment() {
     private lateinit var binding : FragmentCalendarBinding
     private lateinit var images: MutableList<GalleryImage>
+    private lateinit var persons: MutableList<Person>
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,14 +36,13 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setFragmentResultListener("requestKey") { _, result ->
-            images = result.getParcelableArrayList("images")!!
-
-            // 받은 데이터 사용
-            if (images != null) {
-                images[0].uri
-            }
+        sharedViewModel.persons.observe(viewLifecycleOwner) { newPersons ->
+            persons = newPersons.toMutableList()
         }
+        sharedViewModel.images.observe(viewLifecycleOwner) { newImages ->
+            images = newImages.toMutableList()
+        }
+
         setupCalendar()
 
     }
@@ -55,54 +60,35 @@ class CalendarFragment : Fragment() {
         calendarView.setOnDateChangedListener { _, date, _ ->
             // Check if the date has images in the sharedViewModel's images list
             val imagesForDate = images.filter { it.date == date }
-            if (imagesForDate.isNotEmpty()) {
+            val textForDate = persons.filter { it.date == date }
+            if (imagesForDate.isNotEmpty() or textForDate.isNotEmpty()) {
                 // Display the images in some way (e.g., show in an ImageView)
-                displayImages(requireContext(), imagesForDate)
+                displayData(imagesForDate, textForDate)
+            } else{
+                Toast.makeText(requireContext(), "기록이 없습니다", Toast.LENGTH_SHORT).show()
             }
         }
     }
     private class TodayDecorator(private  val context: Context) : DayViewDecorator {
         private val today: CalendarDay = CalendarDay.today()
-        private val drawable: Drawable = context?.resources?.getDrawable(R.drawable.calendar_circle_gray) ?: throw IllegalStateException("Context is null")
+        private val textColor: Int = context.resources.getColor(R.color.purple_500)
+        private val boldTypeface: Typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+
 
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day == today
         }
 
+        @RequiresApi(Build.VERSION_CODES.P)
         override fun decorate(view: DayViewFacade) {
-            // Apply the circle drawable to highlight today's date
-            drawable?.let {
-                view.setSelectionDrawable(it)
-            }
+            view.addSpan(ForegroundColorSpan(textColor))
+            view.addSpan(TypefaceSpan(boldTypeface))
         }
     }
 
-    fun displayImages(context: Context, images: List<GalleryImage>) {
-        val binding = DialogImageGalleryBinding.inflate(LayoutInflater.from(context))
-
-        // Display the first image in the list using Glide and the binding
-        if (images.isNotEmpty()) {
-            if (images[0].uri == null){
-                Glide.with(context)
-                    .load(images[0].img)
-                    .into(binding.imageView)
-            }else{
-                Glide.with(context)
-                    .load(images[0].uri)
-                    .into(binding.imageView)
-            }
-
-        }
-
-        val dialog = AlertDialog.Builder(context)
-            .setView(binding.root)
-            .create()
-
-        binding.closeButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
+    fun displayData(images: List<GalleryImage>, texts: List<Person>) {
+        val displayDialog = DisplayDialog(requireContext(), images, texts)
+        displayDialog.show()
     }
 
 }

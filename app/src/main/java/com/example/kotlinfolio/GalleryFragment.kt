@@ -12,9 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfolio.databinding.FragmentGalleryBinding
@@ -28,6 +27,8 @@ class GalleryFragment : Fragment() {
     private lateinit var recyclerGalleryImageAdapter: RecyclerGalleryImageAdapter
     private lateinit var images:MutableList<GalleryImage>
     private lateinit var fabAddGal: FloatingActionButton
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
 
     private val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123
     private val GALLERY_REQUEST_CODE = 10
@@ -35,6 +36,10 @@ class GalleryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+    private fun setData() {
+        // persons와 images를 설정하고자 할 때
+        sharedViewModel.images.value = images/* 설정할 images 리스트 */
     }
 
     override fun onCreateView(
@@ -71,6 +76,7 @@ class GalleryFragment : Fragment() {
                 if (selectedImageUri != null) {
                     val newGalleryImage = GalleryImage(0, "Title " + (images.size + 1).toString(), "Description " + (images.size + 1).toString(), selectedImageUri, CalendarDay.today())
                     images.add(newGalleryImage)
+                    setData()
                     recyclerGalleryImageAdapter.notifyDataSetChanged()
                 }
             }
@@ -87,10 +93,10 @@ class GalleryFragment : Fragment() {
         images = mutableListOf<GalleryImage>()
 
         images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null, CalendarDay.from(2023, 12, 25)))
-        images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null, CalendarDay.from(2023, 12, 22)))
+        images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null, CalendarDay.from(2024, 1, 1)))
         images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null, CalendarDay.from(2023, 12, 31)))
-        images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.from(2023, 12, 28)))
-        setFragmentResult("requestKey", bundleOf("images" to images))
+        images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.from(2023, 12, 31)))
+        setData()
         setAdapter()
 
 

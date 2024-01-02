@@ -1,7 +1,11 @@
 package com.example.kotlinfolio
 
+import Person
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
-    var images: List<GalleryImage> = emptyList()
+    val persons = MutableLiveData<List<Person>>()
+    val images = MutableLiveData<List<GalleryImage>>()
 }
+
