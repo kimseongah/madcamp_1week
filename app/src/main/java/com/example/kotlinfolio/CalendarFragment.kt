@@ -39,7 +39,6 @@ class CalendarFragment : Fragment() {
         sharedViewModel.persons.observe(viewLifecycleOwner) { newPersons ->
             persons = newPersons.toMutableList()
         }
-
         sharedViewModel.images.observe(viewLifecycleOwner) { newImages ->
             images = newImages.toMutableList()
         }
@@ -62,7 +61,7 @@ class CalendarFragment : Fragment() {
             // Check if the date has images in the sharedViewModel's images list
             val imagesForDate = images.filter { it.date == date }
             val textForDate = persons.filter { it.date == date }
-            if (imagesForDate.isNotEmpty()) {
+            if (imagesForDate.isNotEmpty() or textForDate.isNotEmpty()) {
                 // Display the images in some way (e.g., show in an ImageView)
                 displayData(imagesForDate, textForDate)
             } else{
@@ -88,7 +87,7 @@ class CalendarFragment : Fragment() {
     }
 
     fun displayData(images: List<GalleryImage>, texts: List<Person>) {
-        val displayDialog = DisplayDialog(requireContext(), images)
+        val displayDialog = DisplayDialog(requireContext(), images, texts)
         displayDialog.show()
     }
 

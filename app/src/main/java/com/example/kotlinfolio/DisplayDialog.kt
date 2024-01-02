@@ -1,5 +1,6 @@
 package com.example.kotlinfolio
 
+import Person
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -8,23 +9,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinfolio.databinding.DialogImageGalleryBinding
 
-class DisplayDialog(context: Context, private val images: List<GalleryImage>) : Dialog(context) {
+class DisplayDialog(context: Context, private val images: List<GalleryImage>, private  val texts: List<Person>) : Dialog(context) {
 
     private var _binding: DialogImageGalleryBinding? = null
     private val binding get() = _binding!!
+    private var contentAdapter: ContentAdapter
 
-    private lateinit var imageAdapter: ImageAdapter
 
     init {
         // 커스텀 생성자에서 초기화 로직 수행
         _binding = DialogImageGalleryBinding.inflate(LayoutInflater.from(context))
         setContentView(binding.root)
 
-        imageAdapter = ImageAdapter(context, images)
+        contentAdapter = ContentAdapter(context, images, texts)
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = imageAdapter
+            adapter = contentAdapter
         }
 
         binding.closeButton.setOnClickListener {
