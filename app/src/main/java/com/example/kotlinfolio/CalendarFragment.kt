@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.activityViewModels
 import com.example.kotlinfolio.databinding.FragmentCalendarBinding
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
@@ -23,6 +23,8 @@ class CalendarFragment : Fragment() {
     private lateinit var binding : FragmentCalendarBinding
     private lateinit var images: MutableList<GalleryImage>
     private lateinit var persons: MutableList<Person>
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,9 +36,12 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setFragmentResultListener("requestKey") { _, result ->
-            persons = (result?.getParcelableArrayList("persons") ?: emptyList<Person>()).toMutableList()
-            images = result.getParcelableArrayList("images")!!
+        sharedViewModel.persons.observe(viewLifecycleOwner) { newPersons ->
+            persons = newPersons.toMutableList()
+        }
+
+        sharedViewModel.images.observe(viewLifecycleOwner) { newImages ->
+            images = newImages.toMutableList()
         }
 
         setupCalendar()

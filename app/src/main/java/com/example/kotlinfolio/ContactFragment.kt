@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfolio.databinding.ContactBinding
@@ -33,6 +32,8 @@ class ContactFragment : Fragment() {
     private lateinit var phoneBookListAdapter: PhoneBookListAdapter
     private lateinit var fabAdd: FloatingActionButton
     private lateinit var persons:ArrayList<Person>
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
 
 
     override fun onCreateView(
@@ -43,6 +44,10 @@ class ContactFragment : Fragment() {
         binding = ContactBinding.inflate(layoutInflater)
         return binding.root
     }
+    private fun setData() {
+        // persons와 images를 설정하고자 할 때
+        sharedViewModel.persons.value = persons/* 설정할 images 리스트 */
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +55,7 @@ class ContactFragment : Fragment() {
         rvPhoneBook = binding.rvPhoneBook
         fabAdd = binding.fabAdd
         persons = getPersons()
-        setFragmentResult("requestKey", bundleOf("persons" to persons))
+        setData()
         setAdapter()
 
         // FloatingActionButton 클릭 이벤트 핸들러 추가
@@ -98,7 +103,7 @@ class ContactFragment : Fragment() {
                 // Add the new contact to the list
                 val newPerson = Person(id, name, phoneNumber, data, date)
                 persons.add(newPerson)
-
+                setData()
                 // Notify the adapter that the data has changed
                 phoneBookListAdapter.notifyDataSetChanged()
             }
