@@ -113,12 +113,37 @@ class GalleryFragment : Fragment() {
             images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null, CalendarDay.from(2023, 12, 31)))
             images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.from(2023, 12, 31)))
             ModelPreferencesManager.put(true, "checkedGalleryFrag")
+            ModelPreferencesManager.put(4, "Count")
+            for(i in 0 until images.size){
+                ModelPreferencesManager.put(images[i].title, "Title$i")
+                ModelPreferencesManager.put(images[i].description, "Des$i")
+                ModelPreferencesManager.put(images[i].date.year, "Year$i")
+                ModelPreferencesManager.put(images[i].date.month, "Month$i")
+                ModelPreferencesManager.put(images[i].date.day, "Day$i")
+                ModelPreferencesManager.put(images[i].img, "Img$i")
+                if(images[i].uri == null)ModelPreferencesManager.put("NULL", "Uri$i")
+                else ModelPreferencesManager.put(images[i].uri.toString(), "Uri$i")
+            }
         }
         else{
             var cnt : Int = ModelPreferencesManager.get<Int>("Count")!!
             for (i in 0 until cnt){
-                //val des = ModelPreferencesManager.get<>()
-                //images.add()
+                val tit = ModelPreferencesManager.get<String>("Title$i")!!
+                val des = ModelPreferencesManager.get<String>("Des$i")!!
+                val yea = ModelPreferencesManager.get<Int>("Year$i")!!
+                val mon = ModelPreferencesManager.get<Int>("Month$i")!!
+                val da = ModelPreferencesManager.get<Int>("Day$i")!!
+                val ig = ModelPreferencesManager.get<Int>("Img$i")!!
+                var uristr = ModelPreferencesManager.get<String>("Uri$i")
+                var urit: Uri? = null
+
+                if(uristr == "NULL"){
+                    urit = null
+                }
+                else{
+                    urit = Uri.parse(uristr)
+                }
+                images.add(GalleryImage(ig,tit,des,urit,CalendarDay.from(yea,mon,da)))
             }
         }
 
