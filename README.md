@@ -14,7 +14,6 @@
 
 ## 개발 환경
 - Language: Kotlin
-- Database: 
 - OS: Android
 
 ```
