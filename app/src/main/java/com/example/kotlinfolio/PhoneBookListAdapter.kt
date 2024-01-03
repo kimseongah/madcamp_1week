@@ -55,7 +55,6 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
             ModelPreferencesManager.put(persons[i].date.year, "Personyear$i")
             ModelPreferencesManager.put(persons[i].date.month, "Personmonth$i")
             ModelPreferencesManager.put(persons[i].date.day, "Personday$i")
-            ModelPreferencesManager.put(persons[i].imagePath, "PersonimagePath$i")
         }
     }
 

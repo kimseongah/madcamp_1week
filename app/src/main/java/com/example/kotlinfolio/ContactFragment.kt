@@ -63,7 +63,6 @@ class ContactFragment : Fragment() {
             ModelPreferencesManager.put(persons[i].date.year, "Personyear$i")
             ModelPreferencesManager.put(persons[i].date.month, "Personmonth$i")
             ModelPreferencesManager.put(persons[i].date.day, "Personday$i")
-            ModelPreferencesManager.put(persons[i].imagePath, "PersonimagePath$i")
         }
     }
 
@@ -116,7 +115,6 @@ class ContactFragment : Fragment() {
                 ModelPreferencesManager.put(persons[i].date.year, "Personyear$i")
                 ModelPreferencesManager.put(persons[i].date.month, "Personmonth$i")
                 ModelPreferencesManager.put(persons[i].date.day, "Personday$i")
-                ModelPreferencesManager.put(persons[i].imagePath, "PersonimagePath$i")
             }
         }
         else{
@@ -130,8 +128,7 @@ class ContactFragment : Fragment() {
                 val dateyear = ModelPreferencesManager.get<Int>("Personyear$i")!!
                 val datemonth = ModelPreferencesManager.get<Int>("Personmonth$i")!!
                 val dateday = ModelPreferencesManager.get<Int>("Personday$i")!!
-                val imagePath = ModelPreferencesManager.get<String>("PersonimagePath$i")!!
-                persons.add(Person(no, name, phoneNumber, data, CalendarDay.from(dateyear, datemonth, dateday), imagePath))
+                persons.add(Person(no, name, phoneNumber, data, CalendarDay.from(dateyear, datemonth, dateday), "newFile"))
             }
         }
 
