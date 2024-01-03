@@ -54,6 +54,16 @@ class ContactFragment : Fragment() {
     private fun setData() {
         // persons와 images를 설정하고자 할 때
         sharedViewModel.persons.value = persons/* 설정할 images 리스트 */
+        ModelPreferencesManager.put(persons.size, "CountContact")
+        for(i in 0 until persons.size){
+            ModelPreferencesManager.put(persons[i].no, "Personno$i")
+            ModelPreferencesManager.put(persons[i].name, "Personname$i")
+            ModelPreferencesManager.put(persons[i].phoneNumber, "PersonphoneNumber$i")
+            ModelPreferencesManager.put(persons[i].data, "Persondata$i")
+            ModelPreferencesManager.put(persons[i].date.year, "Personyear$i")
+            ModelPreferencesManager.put(persons[i].date.month, "Personmonth$i")
+            ModelPreferencesManager.put(persons[i].date.day, "Personday$i")
+        }
     }
 
     fun onImageEditButtonClicked(position: Int) {
@@ -91,7 +101,37 @@ class ContactFragment : Fragment() {
 
         rvPhoneBook = binding.rvPhoneBook
         fabAdd = binding.fabAdd
-        persons = getPersons()
+
+        var checkedContactFrag : Boolean? = ModelPreferencesManager.get<Boolean>("checkedContactFrag")
+        if (checkedContactFrag == null){
+            persons = getPersons()
+            ModelPreferencesManager.put(true, "checkedContactFrag")
+            ModelPreferencesManager.put(persons.size, "CountContact")
+            for(i in 0 until persons.size){
+                ModelPreferencesManager.put(persons[i].no, "Personno$i")
+                ModelPreferencesManager.put(persons[i].name, "Personname$i")
+                ModelPreferencesManager.put(persons[i].phoneNumber, "PersonphoneNumber$i")
+                ModelPreferencesManager.put(persons[i].data, "Persondata$i")
+                ModelPreferencesManager.put(persons[i].date.year, "Personyear$i")
+                ModelPreferencesManager.put(persons[i].date.month, "Personmonth$i")
+                ModelPreferencesManager.put(persons[i].date.day, "Personday$i")
+            }
+        }
+        else{
+            persons = arrayListOf<Person>()
+            var cnt : Int = ModelPreferencesManager.get<Int>("CountContact")!!
+            for (i in 0 until cnt){
+                val no = ModelPreferencesManager.get<Int>("Personno$i")!!
+                val name = ModelPreferencesManager.get<String>("Personname$i")!!
+                val phoneNumber = ModelPreferencesManager.get<String>("PersonphoneNumber$i")!!
+                val data = ModelPreferencesManager.get<String>("Persondata$i")!!
+                val dateyear = ModelPreferencesManager.get<Int>("Personyear$i")!!
+                val datemonth = ModelPreferencesManager.get<Int>("Personmonth$i")!!
+                val dateday = ModelPreferencesManager.get<Int>("Personday$i")!!
+                persons.add(Person(no, name, phoneNumber, data, CalendarDay.from(dateyear, datemonth, dateday), "newFile"))
+            }
+        }
+
         setData()
         setAdapter()
 
