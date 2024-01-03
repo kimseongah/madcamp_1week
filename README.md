@@ -139,4 +139,4 @@ targetSdkVersion 34
 
 ## 📲 다운로드 
 
-- [APK 다운로드](https://www.google.com)
+- [APK 다운로드]([https://www.google.com](https://drive.google.com/file/d/1Up816-krCkXXLpfbn8v9KhoE0R_MYDqb/view?usp=share_link)https://drive.google.com/file/d/1Up816-krCkXXLpfbn8v9KhoE0R_MYDqb/view?usp=share_link)
