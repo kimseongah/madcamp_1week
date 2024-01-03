@@ -108,7 +108,7 @@ targetSdkVersion 34
     <img src='./images/gallery/added_image_gallery.jpg' width="30%">
 
   - **앱 종료 후에도 데이터 유지**
-    - 앱을 종료한 후에도 연락처 데이터가 유지됩니다.
+    - 앱을 종료한 후에도 이미지 데이터가 유지됩니다.
 
 #### Tab 3
 - Tab3는 Tab1과 Tab2에서 저장한 메모와 사진을 날짜 별로 볼 수 있는 캘린더입니다. 날짜를 클릭하면 사용자가 저장한 정보들을 한 눈에 볼 수 있습니다.
