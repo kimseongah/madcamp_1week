@@ -83,7 +83,9 @@ targetSdkVersion 34
     <img src='./images/gallery/show_info_gallery.jpg' width="30%">
   
   - **사진 확대**
+
     <img src='./images/gallery/expand_image_gallery.jpg' width="30%">
+    
   - **정보 수정**
 
     <img src='./images/gallery/edit_info_gallery.jpg' width="30%">
