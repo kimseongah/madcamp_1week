@@ -44,6 +44,17 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
             setMessage("정말로 삭제하시겠습니까?")
             setNegativeButton("Yes") { _, _ ->
                 items.removeAt(position)
+                for(i in 0 until items.size){
+                    ModelPreferencesManager.put(items[i].title, "Title$i")
+                    ModelPreferencesManager.put(items[i].description, "Des$i")
+                    ModelPreferencesManager.put(items[i].date.year, "Year$i")
+                    ModelPreferencesManager.put(items[i].date.month, "Month$i")
+                    ModelPreferencesManager.put(items[i].date.day, "Day$i")
+                    ModelPreferencesManager.put(items[i].img, "Img$i")
+                    if(items[i].uri == null)ModelPreferencesManager.put("NULL", "Uri$i")
+                    else ModelPreferencesManager.put(items[i].uri.toString(), "Uri$i")
+                }
+                ModelPreferencesManager.put(items.size, "Count")
                 notifyItemRemoved(position)
             }
             setPositiveButton("No") { _, _ ->
@@ -94,6 +105,11 @@ class RecyclerGalleryImageAdapter(val items: MutableList<GalleryImage>, var con:
                 imgData.title = editedTitle
                 imgData.description = editedDes
                 imgData.date = CalendarDay.from(final_year, final_month, final_day)
+                ModelPreferencesManager.put(editedTitle, "Title$position")
+                ModelPreferencesManager.put(editedDes, "Des$position")
+                ModelPreferencesManager.put(final_year, "Year$position")
+                ModelPreferencesManager.put(final_month, "Month$position")
+                ModelPreferencesManager.put(final_day, "Day$position")
 
                 notifyItemChanged(position)
 

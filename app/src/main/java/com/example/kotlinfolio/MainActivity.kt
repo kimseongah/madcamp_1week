@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        ModelPreferencesManager.with(application)
 
         val pagerAdapter = FragmentAdapter(supportFragmentManager)
         val pager = findViewById<ViewPager>(R.id.viewPager)
