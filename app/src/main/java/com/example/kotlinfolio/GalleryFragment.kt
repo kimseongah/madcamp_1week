@@ -76,6 +76,15 @@ class GalleryFragment : Fragment() {
                 if (selectedImageUri != null) {
                     val newGalleryImage = GalleryImage(0, "Title " + (images.size + 1).toString(), "Description " + (images.size + 1).toString(), selectedImageUri, CalendarDay.today())
                     images.add(newGalleryImage)
+                    val i = images.size - 1
+                    ModelPreferencesManager.put("Title " + (images.size + 1).toString(), "Title$i")
+                    ModelPreferencesManager.put("Description " + (images.size + 1).toString(), "Des$i")
+                    ModelPreferencesManager.put(CalendarDay.today().year, "Year$i")
+                    ModelPreferencesManager.put(CalendarDay.today().month, "Month$i")
+                    ModelPreferencesManager.put(CalendarDay.today().day, "Day$i")
+                    ModelPreferencesManager.put(0, "Img$i")
+                    ModelPreferencesManager.put(selectedImageUri.toString(), "Uri$i")
+                    ModelPreferencesManager.put(images.size, "Count")
                     setData()
                     recyclerGalleryImageAdapter.notifyDataSetChanged()
                 }
@@ -91,11 +100,53 @@ class GalleryFragment : Fragment() {
 
 
         images = mutableListOf<GalleryImage>()
-
+        /*
         images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null, CalendarDay.from(2023, 12, 25)))
         images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null, CalendarDay.from(2024, 1, 1)))
         images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null, CalendarDay.from(2023, 12, 31)))
         images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.from(2023, 12, 31)))
+         */
+        var checkedGalleryFrag : Boolean? = ModelPreferencesManager.get<Boolean>("checkedGalleryFrag")
+        if (checkedGalleryFrag == null){
+            images.add(GalleryImage(R.drawable.exampleimage1, "Example Image 1", "This is example 1.", null, CalendarDay.from(2023, 12, 25)))
+            images.add(GalleryImage(R.drawable.exampleimage2, "Example Image 2", "This is example 2.", null, CalendarDay.from(2024, 1, 1)))
+            images.add(GalleryImage(R.drawable.exampleimage3, "Example Image 3", "This is example 3.", null, CalendarDay.from(2023, 12, 31)))
+            images.add(GalleryImage(R.drawable.exampleimage4, "Example Image 4", "This is example 4.", null, CalendarDay.from(2023, 12, 31)))
+            ModelPreferencesManager.put(true, "checkedGalleryFrag")
+            ModelPreferencesManager.put(4, "Count")
+            for(i in 0 until images.size){
+                ModelPreferencesManager.put(images[i].title, "Title$i")
+                ModelPreferencesManager.put(images[i].description, "Des$i")
+                ModelPreferencesManager.put(images[i].date.year, "Year$i")
+                ModelPreferencesManager.put(images[i].date.month, "Month$i")
+                ModelPreferencesManager.put(images[i].date.day, "Day$i")
+                ModelPreferencesManager.put(images[i].img, "Img$i")
+                if(images[i].uri == null)ModelPreferencesManager.put("NULL", "Uri$i")
+                else ModelPreferencesManager.put(images[i].uri.toString(), "Uri$i")
+            }
+        }
+        else{
+            var cnt : Int = ModelPreferencesManager.get<Int>("Count")!!
+            for (i in 0 until cnt){
+                val tit = ModelPreferencesManager.get<String>("Title$i")!!
+                val des = ModelPreferencesManager.get<String>("Des$i")!!
+                val yea = ModelPreferencesManager.get<Int>("Year$i")!!
+                val mon = ModelPreferencesManager.get<Int>("Month$i")!!
+                val da = ModelPreferencesManager.get<Int>("Day$i")!!
+                val ig = ModelPreferencesManager.get<Int>("Img$i")!!
+                var uristr = ModelPreferencesManager.get<String>("Uri$i")
+                var urit: Uri? = null
+
+                if(uristr == "NULL"){
+                    urit = null
+                }
+                else{
+                    urit = Uri.parse(uristr)
+                }
+                images.add(GalleryImage(ig,tit,des,urit,CalendarDay.from(yea,mon,da)))
+            }
+        }
+
         setData()
         setAdapter()
     }

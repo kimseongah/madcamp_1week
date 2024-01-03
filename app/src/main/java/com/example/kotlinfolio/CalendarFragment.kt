@@ -81,8 +81,10 @@ class CalendarFragment : Fragment() {
 
         @RequiresApi(Build.VERSION_CODES.P)
         override fun decorate(view: DayViewFacade) {
+            /*
             view.addSpan(ForegroundColorSpan(textColor))
             view.addSpan(TypefaceSpan(boldTypeface))
+            */
         }
     }
 
