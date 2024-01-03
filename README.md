@@ -41,11 +41,26 @@ targetSdkVersion 34
         <img src='./images/contact_main.png' width="30%">
 
 ### Tab 2
-- tab2의 주제는 "나만의 갤러리" 입니다. 사진과 사진의 정보를 저장할 수 있습니다. 
-  - 이때, 저장 가능한 사진의 정보는 사진 제목, 사진 설명, 사진을 추가한 날짜입니다.
+- tab2의 주제는 **나만의 갤러리** 입니다. 
+  - **메인 화면**
+        <img src='./images/gallery_main.jpg' width="30%">
+- 사진과 사진의 정보를 저장할 수 있습니다. 
+- 저장 가능한 사진의 정보는 사진 제목, 사진 설명, 사진을 추가한 날짜입니다. 
+- 사진의 정보를 수정할 수 있고, 사진을 삭제할 수 있습니다. 
   - **저장된 정보**
+        <img src='./images/show_info_gallery.jpg' width="30%">
+  - **정보 수정**
+        <img src='./images/edit_info_gallery.jpg' width="30%">
+        <img src='./images/edit_date_gallery.jpg' width="30%">
+  - **사진 삭제**
+        <img src='./images/delete_gallery.jpg' width="30%">
+  
+
 - 사용자로부터 디바이스 파일 접근 권한을 요청합니다. 사용자가 수락하면, 사용자의 핸드폰에 저장된 사진을 선택할 수 있는 창이 뜨게 되고, 선택한 사진을 갤러리에 추가할 수 있습니다.
-- 
+  - **접근 권한 요청**
+        <img src='./images/access_permission_gallery.jpg' width="30%">
+  - **사진 추가**
+        <img src='./images/added_image_gallery.jpg' width="30%">
 
 ### Tab 3
 - 설명
