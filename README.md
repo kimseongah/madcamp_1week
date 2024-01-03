@@ -74,7 +74,9 @@ targetSdkVersion 34
 #### Tab 2
 - tab2의 주제는 **나만의 갤러리** 입니다. 
   - **메인 화면**
-        <img src='./images/gallery/gallery_main.jpg' width="30%">
+
+    <img src='./images/gallery/gallery_main.jpg' width="30%">
+
 - 사진과 사진의 정보를 저장할 수 있습니다. 
 - 저장 가능한 사진의 정보는 사진 제목, 사진 설명, 사진을 추가한 날짜입니다. 
 - 사진을 짧게 누르면 사진을 확대할 수 있고, 길게 누르면 사진의 정보를 수정 및 삭제할 수 있습니다.
