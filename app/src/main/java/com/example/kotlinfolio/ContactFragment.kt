@@ -56,6 +56,7 @@ class ContactFragment : Fragment() {
         sharedViewModel.persons.value = persons/* 설정할 images 리스트 */
     }
 
+
     fun onImageEditButtonClicked(position: Int) {
         // 갤러리 열기 등의 처리 수행
         openGallery(position)

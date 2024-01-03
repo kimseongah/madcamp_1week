@@ -115,7 +115,7 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
         val imageEditButton = dialogView.findViewById<Button>(R.id.imageEditButton)
 
         // 이미지를 로드하여 imageView에 표시
-        if(person.imagePath != null || person.imagePath != "none") loadImageIntoImageView(person.imagePath, imageView)
+        if(person.imagePath != null) loadImageIntoImageView(person.imagePath, imageView)
         else {
             Glide.with(con)
                 .load(R.drawable.ic_person)
