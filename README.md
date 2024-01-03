@@ -24,6 +24,8 @@ targetSdkVersion 34
 - IDE: Android Studio
 - Target Decive: Galaxy S7
 
+## 기술 스택
+
 
 ## 애플리케이션 설명
 - 전체적인 설명
@@ -37,7 +39,11 @@ targetSdkVersion 34
         <img src='./images/contact_main.png' width="30%">
 
 ### Tab 2
-- 설명
+- tab2의 주제는 "나만의 갤러리" 입니다. 사진과 사진의 정보를 저장할 수 있습니다. 
+  - 이때, 저장 가능한 사진의 정보는 사진 제목, 사진 설명, 사진을 추가한 날짜입니다.
+- 사용자로부터 디바이스 파일 접근 권한을 요청합니다. 사용자가 수락하면, 사용자의 핸드폰에 저장된 사진을 선택할 수 있는 창이 뜨게 되고, 선택한 사진을 갤러리에 추가할 수 있습니다.
+- 
+
 ### Tab 3
 - 설명
 
@@ -48,7 +54,7 @@ targetSdkVersion 34
 ### Tab 1
 - 설명
 ### Tab 2
-- 설명
+- 
 ### Tab 3
 - 설명
 
