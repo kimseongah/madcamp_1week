@@ -138,7 +138,7 @@ class ContactFragment : Fragment() {
                 val date = CalendarDay.today()
 
                 // Add the new contact to the list
-                val newPerson = Person(id, name, phoneNumber, data, date)
+                val newPerson = Person(id, name, phoneNumber, data, date, "newFile")
                 persons.add(newPerson)
                 setData()
                 // Notify the adapter that the data has changed

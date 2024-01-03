@@ -163,16 +163,14 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
         val person: Person = persons[position]
         holder.tv_name_phone_book_list_item.text = person.name
         holder.tv_phone_number_phone_book_list_item.text = person.phoneNumber
-        if((person.imagePath == null) || (person.imagePath == "none")) {
-            Glide.with(holder.itemView.context)
-                .load(R.drawable.ic_person)
-                .into(holder.iv_person_phone_book_list_item)
-
-        }else{
-            Glide.with(holder.itemView.context)
-                .load(person.imagePath)
-                .into(holder.iv_person_phone_book_list_item)
+        if((person.imagePath != null)){
+            if(person.imagePath != "newFile") {
+                Glide.with(holder.itemView.context)
+                    .load(person.imagePath)
+                    .into(holder.iv_person_phone_book_list_item)
+            }
         }
+
 
     }
 
