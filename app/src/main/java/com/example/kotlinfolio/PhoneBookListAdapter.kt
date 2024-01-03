@@ -4,7 +4,6 @@ import Person
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.net.Uri
 import android.text.Layout
 import android.text.Spannable
 import android.text.SpannableString
@@ -120,8 +119,8 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
 
         // 이미지 편집 버튼 클릭 시 갤러리에서 이미지 선택
         imageEditButton.setOnClickListener {
-            // AdapterListener를 통해 Fragment로 이벤트 전달
             listener.onImageEditButtonClicked(position)
+            loadImageIntoImageView(person.imagePath, imageView)
         }
 
         // 다이얼로그 생성
@@ -161,7 +160,7 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
         holder.tv_phone_number_phone_book_list_item.text = person.phoneNumber
         if(person.imagePath != null) {
             Glide.with(holder.itemView.context)
-                .load(Uri.parse(person.imagePath))  // person.imagePath를 Uri로 파싱하여 사용
+                .load(person.imagePath)  // person.imagePath를 Uri로 파싱하여 사용
                 .into(holder.iv_person_phone_book_list_item)
         }
 

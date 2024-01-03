@@ -1,8 +1,11 @@
 package com.example.kotlinfolio
 
 import Person
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -37,6 +40,8 @@ class ContactFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val PICK_IMAGE_REQUEST = 1
 
+    private val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,16 +58,34 @@ class ContactFragment : Fragment() {
 
     fun onImageEditButtonClicked(position: Int) {
         // 갤러리 열기 등의 처리 수행
-        openGallery()
-        // 선택한 이미지 경로를 저장할 수도 있음
-        // 저장 후 Adapter에게 이벤트 전달하여 이미지 경로를 업데이트하도록 할 수 있음
+        openGallery(position)
     }
-    private fun openGallery() {
+    private fun openGallery(position: Int) {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryIntent.type = "image/*"
+        val sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putInt("position", position).apply()
         startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST)
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            val sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+            val position = sharedPreferences.getInt("position", -1)
+
+            if (position != -1) {
+                // 갤러리에서 이미지를 선택한 경우
+                val selectedImageUri: Uri? = data.data
+
+                // 선택한 이미지를 처리하는 로직 추가
+                if (selectedImageUri != null) {
+                    persons[position].imagePath = selectedImageUri.toString()
+                    setData()
+                }
+            }
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
