@@ -115,7 +115,12 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
         val imageEditButton = dialogView.findViewById<Button>(R.id.imageEditButton)
 
         // 이미지를 로드하여 imageView에 표시
-        if(person.imagePath != null) loadImageIntoImageView(person.imagePath, imageView)
+        if(person.imagePath != null || person.imagePath != "none") loadImageIntoImageView(person.imagePath, imageView)
+        else {
+            Glide.with(con)
+                .load(R.drawable.ic_person)
+                .into(imageView)
+        }
 
         // 이미지 편집 버튼 클릭 시 갤러리에서 이미지 선택
         imageEditButton.setOnClickListener {
@@ -158,9 +163,14 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
         val person: Person = persons[position]
         holder.tv_name_phone_book_list_item.text = person.name
         holder.tv_phone_number_phone_book_list_item.text = person.phoneNumber
-        if(person.imagePath != null) {
+        if((person.imagePath == null) || (person.imagePath == "none")) {
             Glide.with(holder.itemView.context)
-                .load(person.imagePath)  // person.imagePath를 Uri로 파싱하여 사용
+                .load(R.drawable.ic_person)
+                .into(holder.iv_person_phone_book_list_item)
+
+        }else{
+            Glide.with(holder.itemView.context)
+                .load(person.imagePath)
                 .into(holder.iv_person_phone_book_list_item)
         }
 
