@@ -12,17 +12,22 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.prolificinteractive.materialcalendarview.CalendarDay
 
 
 
-class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
+class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, private val listener: ContactFragment) :
     RecyclerView.Adapter<PhoneBookListAdapter.ViewHolder>() {
     var TAG = "PhoneBookListAdapter"
+    interface AdapterListener {
+        fun onImageEditButtonClicked(position: Int)
+    }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var iv_person_phone_book_list_item: ImageView
         var tv_name_phone_book_list_item: TextView
@@ -92,15 +97,31 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
             show()
         }
     }
+    private fun loadImageIntoImageView(imageUri: String, imageView: ImageView) {
+        Glide.with(con)
+            .load(imageUri)
+            .into(imageView)
+    }
     fun showEditDialog(position: Int) {
         // 해당 position의 Person을 가져와서 편집 다이얼로그 띄우기
         val person = persons[position]
 
         // 다이얼로그의 커스텀 레이아웃을 inflate
         val dialogView = LayoutInflater.from(con).inflate(R.layout.edit_dialog_layout, null)
-
         val editTextData = dialogView.findViewById<EditText>(R.id.editTextData)
         editTextData.setText(person.data)
+
+        val imageView = dialogView.findViewById<ImageView>(R.id.imageView)
+        val imageEditButton = dialogView.findViewById<Button>(R.id.imageEditButton)
+
+        // 이미지를 로드하여 imageView에 표시
+        if(person.imagePath != null) loadImageIntoImageView(person.imagePath, imageView)
+
+        // 이미지 편집 버튼 클릭 시 갤러리에서 이미지 선택
+        imageEditButton.setOnClickListener {
+            listener.onImageEditButtonClicked(position)
+            loadImageIntoImageView(person.imagePath, imageView)
+        }
 
         // 다이얼로그 생성
         AlertDialog.Builder(con)
@@ -137,6 +158,12 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context) :
         val person: Person = persons[position]
         holder.tv_name_phone_book_list_item.text = person.name
         holder.tv_phone_number_phone_book_list_item.text = person.phoneNumber
+        if(person.imagePath != null) {
+            Glide.with(holder.itemView.context)
+                .load(person.imagePath)  // person.imagePath를 Uri로 파싱하여 사용
+                .into(holder.iv_person_phone_book_list_item)
+        }
+
     }
 
     override fun getItemCount(): Int {
