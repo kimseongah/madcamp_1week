@@ -43,6 +43,22 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
 
         }
     }
+
+    private fun setData() {
+        // persons와 images를 설정하고자 할 때
+        ModelPreferencesManager.put(persons.size, "CountContact")
+        for(i in 0 until persons.size){
+            ModelPreferencesManager.put(persons[i].no, "Personno$i")
+            ModelPreferencesManager.put(persons[i].name, "Personname$i")
+            ModelPreferencesManager.put(persons[i].phoneNumber, "PersonphoneNumber$i")
+            ModelPreferencesManager.put(persons[i].data, "Persondata$i")
+            ModelPreferencesManager.put(persons[i].date.year, "Personyear$i")
+            ModelPreferencesManager.put(persons[i].date.month, "Personmonth$i")
+            ModelPreferencesManager.put(persons[i].date.day, "Personday$i")
+            ModelPreferencesManager.put(persons[i].imagePath, "PersonimagePath$i")
+        }
+    }
+
     @SuppressLint("ResourceAsColor")
     fun returnToFragment(position: Int) {
         // 프래그먼트로 돌아가는 코드
@@ -89,6 +105,7 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
             setMessage("정말로 삭제하시겠습니까?")
             setNegativeButton("Yes") { _, _ ->
                 persons.removeAt(position)
+                setData()
                 notifyItemRemoved(position)
             }
             setPositiveButton("No") { _, _ ->
@@ -136,6 +153,7 @@ class PhoneBookListAdapter(var persons: ArrayList<Person>, var con: Context, pri
                 person.date = CalendarDay.today()
 
                 // RecyclerView 갱신 (변경된 데이터를 반영하기 위해)
+                setData()
                 notifyItemChanged(position)
 
                 returnToFragment(position)

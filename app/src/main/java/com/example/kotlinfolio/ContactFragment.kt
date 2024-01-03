@@ -120,6 +120,7 @@ class ContactFragment : Fragment() {
             }
         }
         else{
+            persons = arrayListOf<Person>()
             var cnt : Int = ModelPreferencesManager.get<Int>("CountContact")!!
             for (i in 0 until cnt){
                 val no = ModelPreferencesManager.get<Int>("Personno$i")!!
